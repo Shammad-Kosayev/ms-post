@@ -1,14 +1,14 @@
 package com.shammad.mspost.service;
 
 import com.shammad.mspost.domain.entity.PostEntity;
-import com.shammad.mspost.domain.entity.UserEntity;
 import com.shammad.mspost.domain.repository.PostRepository;
 //import com.shammad.mspost.kafka.producer.PostProducer;
 import com.shammad.mspost.mapper.PostMapper;
 import com.shammad.mspost.model.request.CreatePostRequest;
 import com.shammad.mspost.model.response.CreatePostResponse;
 import com.shammad.mspost.model.response.PostResponse;
-import com.shammad.mspost.util.UserUtil;
+import com.shammad.scrolllibcommon.domain.entity.UserEntity;
+import com.shammad.scrolllibcommon.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ public class PostService {
     private final PostRepository postRepository;
 //    private final PostProducer postProducer;
     private final PostMapper postMapper;
-    private final UserUtil userUtil; // to simulate fetching authenticated user
 
     @Transactional(readOnly = true)
     public PostResponse getPostById(long postId) {
@@ -35,7 +34,7 @@ public class PostService {
 
     @Transactional(rollbackFor = Exception.class)
     public CreatePostResponse createPost(CreatePostRequest request) {
-        UserEntity activeUser = userUtil.getActiveUser();
+        UserEntity activeUser = UserUtil.getActiveUser();
 
         PostEntity newPost = new PostEntity();
 //        newPost.setPoster(activeUser);
